@@ -32,7 +32,7 @@ public class AgendamentoEmailDAO {
 			query.setParameter("email", agendamentoEmail.getEmail());
 			return (AgendamentoEmail) query.getSingleResult();
 		} catch (NoResultException e) {
-			return null;
+			return new AgendamentoEmail();
 		}
 	}
 

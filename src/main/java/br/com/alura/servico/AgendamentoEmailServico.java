@@ -29,7 +29,7 @@ public class AgendamentoEmailServico {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public void inserir(@Valid AgendamentoEmail agendamentoEmail) {
 		AgendamentoEmail agendamentoEmailConferido = agendamentoEmailDAO.listarPorEmail(agendamentoEmail);
-		if (agendamentoEmailConferido != null) {
+		if (agendamentoEmailConferido.getEmail() != null && agendamentoEmailConferido.getAgendado() != null) {
 			throw new RuntimeException("E-mail já foi cadastrado!");
 		}
 		agendamentoEmail.setAgendado(false);
