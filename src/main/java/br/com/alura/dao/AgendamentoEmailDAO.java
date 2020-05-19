@@ -25,14 +25,16 @@ public class AgendamentoEmailDAO {
 	}
 
 	public AgendamentoEmail listarPorEmail(AgendamentoEmail agendamentoEmail) {
+		AgendamentoEmail agendamentoEmailConferido = null;
 		try {
 			Query query = em.createQuery(
 					"select ae from AgendamentoEmail ae where ae.email = :email and ae.agendado = false",
 					AgendamentoEmail.class);
 			query.setParameter("email", agendamentoEmail.getEmail());
-			return (AgendamentoEmail) query.getSingleResult();
+			agendamentoEmailConferido = (AgendamentoEmail) query.getSingleResult();
+			return agendamentoEmailConferido;
 		} catch (NoResultException e) {
-			return new AgendamentoEmail();
+			return agendamentoEmailConferido;
 		}
 	}
 
