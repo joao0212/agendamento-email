@@ -3,13 +3,13 @@ package br.com.alura.job;
 import java.util.List;
 
 import javax.ejb.Schedule;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
 import javax.inject.Inject;
 
 import br.com.alura.entidade.AgendamentoEmail;
 import br.com.alura.servico.AgendamentoEmailServico;
 
-@Stateless
+@Singleton
 public class AgendamentoEmailJob {
 	
 	@Inject
