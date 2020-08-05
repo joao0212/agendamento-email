@@ -1,6 +1,6 @@
 package br.com.alura.controller;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -12,22 +12,23 @@ import javax.ws.rs.core.Response;
 import br.com.alura.entidade.AgendamentoEmail;
 import br.com.alura.servico.AgendamentoEmailServico;
 
-@Path("/emails")
+@Path("emails")
 public class AgendamentoEmailController {
 
-	@EJB
-	private AgendamentoEmailServico emailServico;
+	@Inject
+	private AgendamentoEmailServico agendamentoEmailServico;
 
 	@GET
 	@Produces(value = MediaType.APPLICATION_JSON)
 	public Response listar() {
-		return Response.ok(emailServico.listar()).build();
+		return Response.ok(agendamentoEmailServico.listar()).build();
 	}
 
 	@POST
 	@Consumes(value = MediaType.APPLICATION_JSON)
 	public Response inserir(AgendamentoEmail agendamentoEmail) {
-		emailServico.inserir(agendamentoEmail);
+		agendamentoEmailServico.inserir(agendamentoEmail);
 		return Response.status(201).build();
 	}
+
 }

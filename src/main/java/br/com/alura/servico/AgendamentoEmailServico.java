@@ -1,51 +1,46 @@
 package br.com.alura.servico;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.validation.Valid;
+import javax.inject.Inject;
 
 import br.com.alura.dao.AgendamentoEmailDAO;
 import br.com.alura.entidade.AgendamentoEmail;
-import br.com.alura.interception.Logger;
 
-@Logger
 @Stateless
-@TransactionManagement(TransactionManagementType.CONTAINER)
 public class AgendamentoEmailServico {
 
-	@EJB
-	private AgendamentoEmailDAO agendamentoEmailDAO;
+	private static final Logger LOGGER = Logger.getLogger(AgendamentoEmailServico.class.getName());
+
+	@Inject
+	private AgendamentoEmailDAO dao;
 
 	public List<AgendamentoEmail> listar() {
-		return this.agendamentoEmailDAO.listar();
+		return dao.listar();
 	}
 
-	@TransactionAttribute(TransactionAttributeType.REQUIRED)
-	public void inserir(@Valid AgendamentoEmail agendamentoEmail) {
-		AgendamentoEmail agendamentoEmailConferido = agendamentoEmailDAO.listarPorEmail(agendamentoEmail);
-		if (agendamentoEmailConferido != null) {
-			throw new RuntimeException("E-mail já foi cadastrado!");
-		}
+	public void inserir(AgendamentoEmail agendamentoEmail) {
 		agendamentoEmail.setAgendado(false);
-		this.agendamentoEmailDAO.inserir(agendamentoEmail);
+		dao.inserir(agendamentoEmail);
 	}
 
 	public List<AgendamentoEmail> listarPorNaoAgendado() {
-		return agendamentoEmailDAO.listarPorNaoAgendado();
+		return dao.listarPorNaoAgendado();
 	}
 
 	public void alterar(AgendamentoEmail agendamentoEmail) {
 		agendamentoEmail.setAgendado(true);
-		agendamentoEmailDAO.alterar(agendamentoEmail);
+		dao.alterar(agendamentoEmail);
 	}
 
-	public void enviarEmail(AgendamentoEmail agendamentoEmail) {
-		System.out.println("E-mail enviado: " + agendamentoEmail.getEmail());
+	public void enviar(AgendamentoEmail agendamentoEmail) {
+		try {
+			Thread.sleep(5000);
+			LOGGER.info("O e-mail do(a) usuário(a) " + agendamentoEmail.getEmail() + " foi enviado!");
+		} catch (Exception e) {
+			LOGGER.warning(e.getMessage());
+		}
 	}
 }
