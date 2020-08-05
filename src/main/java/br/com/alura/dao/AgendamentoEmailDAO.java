@@ -10,25 +10,24 @@ import br.com.alura.entidade.AgendamentoEmail;
 
 @Stateless
 public class AgendamentoEmailDAO {
-	
+
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	public List<AgendamentoEmail> listar() {
-		return entityManager.createQuery("SELECT ae FROM AgendamentoEmail ae",
-				AgendamentoEmail.class).getResultList();
+		return entityManager.createQuery("SELECT ae FROM AgendamentoEmail ae", AgendamentoEmail.class).getResultList();
 	}
 
 	public void inserir(AgendamentoEmail agendamentoEmail) {
 		entityManager.persist(agendamentoEmail);
 	}
-	
+
 	public List<AgendamentoEmail> listarPorNaoAgendado() {
 		return entityManager
-				.createQuery("SELECT ae FROM AgendamentoEmail ae WHERE ae.agendado = false",
-						AgendamentoEmail.class).getResultList();
+				.createQuery("SELECT ae FROM AgendamentoEmail ae WHERE ae.agendado = false", AgendamentoEmail.class)
+				.getResultList();
 	}
-	
+
 	public void alterar(AgendamentoEmail agendamentoEmail) {
 		entityManager.merge(agendamentoEmail);
 	}
